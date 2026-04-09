@@ -56,6 +56,7 @@ button{
 
 .video-ad{
   margin:15px 0;
+  display:none;
 }
 .video-ad iframe{
   width:100%;
@@ -76,10 +77,11 @@ button{
   <h3 id="progress"></h3>
   <h2 id="question"></h2>
 
-  <!-- 🎥 VIDEO AD -->
-  <div class="video-ad">
+  <!-- 🎥 VIDEO (ONLY PAGE 56) -->
+  <div class="video-ad" id="videoBox">
     <iframe 
-      src="https://www.youtube.com/embed/8cM229JkuN0?autoplay=1&mute=1"
+      id="videoFrame"
+      src=""
       title="Politics Video"
       frameborder="0"
       allow="autoplay; encrypted-media"
@@ -130,6 +132,13 @@ add("Policy",[
 "Farm subsidies","Min wage increase","Unemployment support","Housing support"
 ]);
 
+// ✅ ADD EXTRA QUESTION FOR PAGE 76
+survey.push({
+  section:"Final",
+  q:"I am satisfied with political systems overall",
+  opts:likert
+});
+
 // -------- URL --------
 const params = new URLSearchParams(location.search);
 let page = parseInt(params.get("page")) || 1;
@@ -143,12 +152,38 @@ function load(){
     return;
   }
 
-  const q = survey[page-1];
-
   document.title = `Metaexpress.com (${page})`;
 
   let percent = (page/survey.length)*100;
   document.getElementById("bar").style.width = percent + "%";
+
+  // 🎥 SHOW VIDEO ONLY ON PAGE 56
+  if(page === 56){
+
+    document.getElementById("progress").innerText =
+      `Advertisement - Page ${page}/${survey.length}`;
+
+    document.getElementById("question").innerText =
+      "Please watch this video before continuing";
+
+    document.getElementById("answers").innerHTML = "";
+
+    document.getElementById("videoBox").style.display = "block";
+    document.getElementById("videoFrame").src =
+      "https://www.youtube.com/embed/8cM229JkuN0?autoplay=1&mute=1";
+
+    // auto next after video
+    setTimeout(()=>{
+      window.location.href = `?page=${page+1}&reload=0`;
+    }, 216000);
+
+    return;
+  }
+
+  // ❌ hide video on all other pages
+  document.getElementById("videoBox").style.display = "none";
+
+  const q = survey[page-1];
 
   document.getElementById("progress").innerText =
     `${q.section} - Question ${page}/${survey.length}`;
@@ -167,6 +202,13 @@ function load(){
 
 // -------- NEXT --------
 function next(){
+
+  // skip validation on video page
+  if(page === 56){
+    window.location.href = `?page=${page+1}&reload=0`;
+    return;
+  }
+
   const checked = document.querySelector("input[name='ans']:checked");
 
   if(!checked){
@@ -190,19 +232,6 @@ function next(){
 
   window.location.href = `?page=${nextPage}&reload=0`;
 }
-
-// -------- AUTO NEXT AFTER VIDEO --------
-let autoTime = 216000; // 3 min 36 sec
-
-setTimeout(()=>{
-  const checked = document.querySelector("input[name='ans']:checked");
-
-  if(checked){
-    next();
-  } else {
-    window.location.href = `?page=${page+1}&reload=0`;
-  }
-}, autoTime);
 
 // -------- START --------
 load();
