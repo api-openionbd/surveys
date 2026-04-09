@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Finding Your Ideal Survey...</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:white;
+  text-align:center;
+}
+
+.box{
+  background:rgba(255,255,255,0.1);
+  padding:40px;
+  border-radius:15px;
+  backdrop-filter: blur(10px);
+}
+
+.loader{
+  border:5px solid rgba(255,255,255,0.2);
+  border-top:5px solid white;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  animation:spin 1s linear infinite;
+  margin:20px auto;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>🔍 Finding Your Ideal Survey...</h2>
+  <div class="loader"></div>
+  <p>Please wait while we match you</p>
+</div>
+
+<script>
+
+// 🎯 YOUR SURVEYS
+const surveys = [
+  "https://api-openionbd.github.io/surveys/take/122334.html",
+  "https://api-openionbd.github.io/surveys/take/12233456642.html"
+];
+
+// ⏳ delay for realism
+setTimeout(()=>{
+
+  // 🎲 RANDOM PICK
+  let chosen = surveys[Math.floor(Math.random() * surveys.length)];
+
+  // 🚀 REDIRECT
+  window.location.href = chosen;
+
+}, 2000);
+
+</script>
+
+</body>
+</html>
