@@ -21,7 +21,6 @@ body {
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* ✅ NEW PROGRESS BAR */
 .progress-bar{
   width:100%;
   height:10px;
@@ -46,7 +45,6 @@ body {
   cursor:pointer;
   transition:0.2s;
 }
-
 .option:hover{
   background:#667eea;
   color:#fff;
@@ -67,7 +65,6 @@ button{
 
 <div class="container">
 
-  <!-- ✅ PROGRESS BAR -->
   <div class="progress-bar">
     <div class="progress-fill" id="bar"></div>
   </div>
@@ -80,80 +77,8 @@ button{
 </div>
 
 <script>
+
 // -------- SURVEY --------
-const survey = [];
-
-// helper
-function add(section, questions){
-  questions.forEach(q=>{
-    survey.push({
-      section,
-      type:"mcq",
-      q:q,
-      opts:["Yes","No","Maybe"],
-      required:true
-    });
-  });
-}
-
-// -------- DEMOGRAPHICS --------
-add("Demographics",[
-"What is your age group?",
-"What is your gender?",
-"What is your education level?",
-"What is your occupation?",
-"Which country do you live in?"
-]);
-
-// -------- AI --------
-add("AI",[
-"Do you use AI tools daily?",
-"Do you trust AI recommendations?",
-"Is AI helpful in education?",
-"Will AI replace jobs?",
-"Is AI safe for society?",
-"Does AI improve productivity?",
-"Is AI easy to use?",
-"Should AI be regulated?",
-"Does AI save time?",
-"Is AI accessible to everyone?",
-"Does AI improve creativity?",
-"Is AI trustworthy?",
-"Will AI dominate the future?",
-"Does AI reduce human effort?",
-"Is AI overhyped?",
-"Does AI improve daily life?",
-"Is AI beneficial for business?",
-"Does AI improve decision making?",
-"Is AI useful for students?",
-"Are you excited about AI?"
-]);
-
-// -------- EDUCATION --------
-add("Education",[
-"Do you prefer online learning?",
-"Is your education system effective?",
-"Do you use YouTube to learn?",
-"Are AI tutors helpful?",
-"Do you enjoy learning new skills?",
-"Is education accessible to you?",
-"Are teachers effective?",
-"Are exams fair?",
-"Is education affordable?",
-"Do you learn daily?",
-"Does school prepare you for life?",
-"Do you like self-learning?",
-"Should education change?",
-"Do you enjoy studying?",
-"Is learning fun?",
-"Do you take online courses?",
-"Do you improve skills regularly?",
-"Does education improve life?",
-"Do you value education?",
-"Do you want to learn new skills?"
-]);
-
-// -------- HEALTH --------// -------- SURVEY --------
 const survey = [];
 
 // Option sets
@@ -171,7 +96,6 @@ function add(section, questions, type="likert"){
   questions.forEach(q=>{
     survey.push({
       section,
-      type:type,
       q:q,
       opts: type==="mcq" ? yesNo : likert,
       required:true
@@ -180,203 +104,83 @@ function add(section, questions, type="likert"){
 }
 
 // -------- DEMOGRAPHICS --------
-survey.push({
-  section:"Demographics",
-  q:"What is your age group?",
-  opts:["Under 18","18-24","25-34","35-44","45+"],
-  required:true
-});
-
-survey.push({
-  section:"Demographics",
-  q:"What is your gender?",
-  opts:["Male","Female","Other"],
-  required:true
-});
-
-survey.push({
-  section:"Demographics",
-  q:"Your education level?",
-  opts:["School","College","University","Other"],
-  required:true
-});
-
-survey.push({
-  section:"Demographics",
-  q:"Your occupation?",
-  opts:["Student","Job","Business","Other"],
-  required:true
-});
-
-survey.push({
-  section:"Demographics",
-  q:"Your country?",
-  opts:["Bangladesh","India","USA","Other"],
-  required:true
-});
+survey.push({section:"Demographics",q:"What is your age group?",opts:["Under 18","18-24","25-34","35-44","45+"],required:true});
+survey.push({section:"Demographics",q:"What is your gender?",opts:["Male","Female","Other"],required:true});
+survey.push({section:"Demographics",q:"Your education level?",opts:["School","College","University","Other"],required:true});
+survey.push({section:"Demographics",q:"Your occupation?",opts:["Student","Job","Business","Other"],required:true});
+survey.push({section:"Demographics",q:"Your country?",opts:["Bangladesh","India","USA","Other"],required:true});
 
 // -------- AI --------
 add("AI",[
-"AI improves productivity",
-"I trust AI recommendations",
-"AI is useful in education",
-"AI will replace jobs",
-"AI is safe for society",
-"AI saves time",
-"AI is easy to use",
-"AI should be regulated",
-"AI improves creativity",
-"AI is accessible",
-"AI improves business",
-"AI is overhyped",
-"AI will dominate future",
-"AI reduces effort",
-"AI improves learning",
-"AI is trustworthy",
-"AI improves life",
-"AI helps decisions",
-"AI is useful daily",
-"I am excited about AI"
+"AI improves productivity","I trust AI recommendations","AI is useful in education",
+"AI will replace jobs","AI is safe for society","AI saves time",
+"AI is easy to use","AI should be regulated","AI improves creativity",
+"AI is accessible","AI improves business","AI is overhyped",
+"AI will dominate future","AI reduces effort","AI improves learning",
+"AI is trustworthy","AI improves life","AI helps decisions",
+"AI is useful daily","I am excited about AI"
 ]);
 
 // -------- EDUCATION --------
 add("Education",[
-"I prefer online learning",
-"Education system is effective",
-"I use YouTube for learning",
-"AI tutors are helpful",
-"I enjoy learning",
-"Education is accessible",
-"Teachers are effective",
-"Exams are fair",
-"Education is affordable",
-"I learn daily",
-"School prepares for life",
-"I like self-learning",
-"Education should change",
-"I enjoy studying",
-"Learning is fun",
-"I take online courses",
-"I improve skills",
-"Education improves life",
-"I value education",
-"I want new skills"
+"I prefer online learning","Education system is effective","I use YouTube for learning",
+"AI tutors are helpful","I enjoy learning","Education is accessible",
+"Teachers are effective","Exams are fair","Education is affordable",
+"I learn daily","School prepares for life","I like self-learning",
+"Education should change","I enjoy studying","Learning is fun",
+"I take online courses","I improve skills","Education improves life",
+"I value education","I want new skills"
 ]);
 
 // -------- HEALTH --------
 add("Health",[
-"I exercise regularly",
-"I eat healthy",
-"I sleep well",
-"I use health apps",
-"I drink enough water",
-"I avoid junk food",
-"I care mental health",
-"I feel energetic",
-"I manage stress",
-"I follow routine",
-"I visit doctors",
-"I track fitness",
-"I feel healthy",
-"I eat fruits",
-"I avoid sugar",
-"I walk daily",
-"I feel active",
-"I meditate",
-"I balance life",
-"I focus on fitness"
+"I exercise regularly","I eat healthy","I sleep well","I use health apps",
+"I drink enough water","I avoid junk food","I care mental health",
+"I feel energetic","I manage stress","I follow routine",
+"I visit doctors","I track fitness","I feel healthy",
+"I eat fruits","I avoid sugar","I walk daily",
+"I feel active","I meditate","I balance life","I focus on fitness"
 ]);
 
 // -------- ENTERTAINMENT --------
 add("Entertainment",[
-"I watch movies",
-"I prefer series",
-"I use streaming apps",
-"I play games",
-"I follow influencers",
-"I use social media",
-"I enjoy music",
-"I watch YouTube",
-"I spend time online",
-"I enjoy content",
-"I follow trends",
-"I binge watch",
-"I watch TV",
-"I enjoy cinema",
-"I play mobile games",
-"I use TikTok",
-"I watch Netflix",
-"I watch streams",
-"I use apps",
-"I enjoy viral content"
+"I watch movies","I prefer series","I use streaming apps","I play games",
+"I follow influencers","I use social media","I enjoy music",
+"I watch YouTube","I spend time online","I enjoy content",
+"I follow trends","I binge watch","I watch TV","I enjoy cinema",
+"I play mobile games","I use TikTok","I watch Netflix",
+"I watch streams","I use apps","I enjoy viral content"
 ]);
 
 // -------- COMMUNITY --------
 add("Community",[
-"I attend events",
-"I volunteer",
-"I feel connected",
-"I help others",
-"I trust people",
-"I engage socially",
-"I like community work",
-"I meet friends",
-"I communicate often",
-"I support groups",
-"I join activities",
-"I feel belonging",
-"I help neighbors",
-"I attend gatherings",
-"I enjoy teamwork",
-"I value friends",
-"I feel supported",
-"I trust community",
-"I join online groups",
-"I care society"
+"I attend events","I volunteer","I feel connected","I help others",
+"I trust people","I engage socially","I like community work",
+"I meet friends","I communicate often","I support groups",
+"I join activities","I feel belonging","I help neighbors",
+"I attend gatherings","I enjoy teamwork","I value friends",
+"I feel supported","I trust community","I join online groups","I care society"
 ]);
 
 // -------- ENVIRONMENT --------
 add("Environment",[
-"I recycle",
-"I save energy",
-"I care environment",
-"I avoid plastic",
-"I support eco products",
-"I save water",
-"I care climate change",
-"I use eco items",
-"I reduce waste",
-"I reuse items",
-"I plant trees",
-"I support sustainability",
-"I buy eco brands",
-"I avoid pollution",
-"I care future",
-"I walk instead drive",
-"I save electricity",
-"I support green policy",
-"I care animals",
-"I take eco actions"
+"I recycle","I save energy","I care environment","I avoid plastic",
+"I support eco products","I save water","I care climate change",
+"I use eco items","I reduce waste","I reuse items",
+"I plant trees","I support sustainability","I buy eco brands",
+"I avoid pollution","I care future","I walk instead drive",
+"I save electricity","I support green policy","I care animals","I take eco actions"
 ]);
 
 // -------- PERSONAL --------
 add("Personal",[
-"Family is important",
-"Money brings happiness",
-"Technology improves life",
-"I am satisfied",
-"I set goals",
-"I stay positive",
-"I manage time",
-"I am motivated",
-"I feel successful",
-"I help others",
-"I believe growth",
-"I enjoy life",
-"I take risks",
-"I learn from failure",
-"I stay focused"
+"Family is important","Money brings happiness","Technology improves life",
+"I am satisfied","I set goals","I stay positive",
+"I manage time","I am motivated","I feel successful",
+"I help others","I believe growth","I enjoy life",
+"I take risks","I learn from failure","I stay focused"
 ]);
+
 // -------- URL --------
 const params = new URLSearchParams(location.search);
 let page = parseInt(params.get("page")) || 1;
@@ -394,7 +198,6 @@ function load(){
 
   document.title = `Subtar (${page})`;
 
-  // ✅ UPDATE PROGRESS BAR
   let percent = (page/survey.length)*100;
   document.getElementById("bar").style.width = percent + "%";
 
@@ -443,6 +246,7 @@ function next(){
 }
 
 load();
+
 </script>
 
 </body>
