@@ -1,84 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>AI Survey</title>
+<title>Subtar (1)</title>
 
 <style>
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  margin: 0;
-  color: #333;
+  font-family: Arial;
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  margin:0;
 }
 
-.container {
-  max-width: 600px;
-  margin: 60px auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  text-align: center;
+.container{
+  max-width:600px;
+  margin:50px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
 }
 
-h2 { margin-bottom: 20px; }
-
-.progress-bar {
-  height: 8px;
-  background: #eee;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
+.option{
+  display:block;
+  background:#f5f5f5;
+  margin:8px 0;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.progress {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  transition: width 0.3s;
-}
-
-.option {
-  display: block;
-  background: #f5f5f5;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.option:hover {
-  background: #e0e0ff;
-}
-
-input[type="text"] {
-  width: 90%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  border: none;
-  background: #667eea;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background: #5a67d8;
-}
-
-#progressText {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #666;
+button{
+  margin-top:20px;
+  padding:10px 20px;
+  background:#667eea;
+  color:white;
+  border:none;
+  border-radius:8px;
 }
 </style>
 </head>
@@ -86,86 +43,105 @@ button:hover {
 <body>
 
 <div class="container">
-  <div id="progressText"></div>
-  <div class="progress-bar"><div class="progress" id="bar"></div></div>
+  <h3 id="progress"></h3>
   <h2 id="question"></h2>
   <div id="answers"></div>
+  <div id="error" style="color:red;"></div>
   <button onclick="next()">Next</button>
 </div>
 
 <script>
-// Build 140 questions
+// -------- SURVEY --------
 const survey = [];
 
-function addText(q){ survey.push({type:"text", q}); }
-function addMCQ(q, opts){ survey.push({type:"mcq", q, opts}); }
-function addScale(q){ survey.push({type:"scale", q, opts:["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"]}); }
-
-// Sections
-for(let i=1;i<=20;i++){
-  if(i%3===0) addText("AI Q"+i+": What excites you about AI?");
-  else if(i%2===0) addScale("AI Q"+i+": AI improves life.");
-  else addMCQ("AI Q"+i+": Do you use AI?",["Yes","No","Sometimes"]);
-}
-for(let i=1;i<=120;i++){
-  if(i%3===0) addText("Q"+(i+20)+": Share your opinion.");
-  else if(i%2===0) addScale("Q"+(i+20)+": I agree with this statement.");
-  else addMCQ("Q"+(i+20)+": Choose option.",["Yes","No","Maybe"]);
+// Sections helper
+function addSection(name, count){
+  for(let i=1;i<=count;i++){
+    survey.push({
+      section:name,
+      type:"mcq",
+      q:`${name} Q${i}: Choose option`,
+      opts:["Yes","No","Maybe"],
+      required:true
+    });
+  }
 }
 
-// URL system
+// Demographics
+addSection("Demographics",5);
+
+// Other sections
+addSection("AI",20);
+addSection("Education",20);
+addSection("Health",20);
+addSection("Entertainment",20);
+addSection("Community",20);
+addSection("Environment",20);
+addSection("Personal",15); // total ~140
+
+// -------- URL --------
 const params = new URLSearchParams(location.search);
 let page = parseInt(params.get("page")) || 1;
-let id = params.get("id") || Math.floor(1000 + Math.random()*9000);
+let id = params.get("id") || Math.floor(1000+Math.random()*9000);
 
-// Load question
+// reload counter
+let reloadCount = parseInt(params.get("reload")) || 0;
+
+// -------- LOAD --------
 function load(){
   if(page > survey.length){
-    // 🔁 REDIRECT HERE
-    window.location.href = "https://openionbd.2bd.net/success.html?id=" + id;
+    window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
     return;
   }
 
   const q = survey[page-1];
 
-  document.getElementById("question").innerText = q.q;
-  document.getElementById("progressText").innerText = "Question " + page + " of " + survey.length;
+  // 🔥 TAB TITLE COUNTER
+  document.title = `Subtar (${page})`;
 
-  // progress bar
-  document.getElementById("bar").style.width = ((page/survey.length)*100) + "%";
+  document.getElementById("progress").innerText = `${q.section} - Question ${page}/${survey.length}`;
+  document.getElementById("question").innerText = q.q;
+  document.getElementById("error").innerText = "";
 
   let html = "";
-
-  if(q.type==="text"){
-    html = `<input id="ans" placeholder="Type your answer...">`;
-  } else {
-    q.opts.forEach(o=>{
-      html += `<label class="option">
-        <input type="radio" name="ans" value="${o}"> ${o}
-      </label>`;
-    });
-  }
+  q.opts.forEach(o=>{
+    html += `<label class="option">
+      <input type="radio" name="ans" value="${o}"> ${o}
+    </label>`;
+  });
 
   document.getElementById("answers").innerHTML = html;
 }
 
-// Next
+// -------- NEXT --------
 function next(){
-  let val = "";
+  const checked = document.querySelector("input[name='ans']:checked");
 
-  const input = document.getElementById("ans");
-  if(input){
-    val = input.value;
-  } else {
-    const checked = document.querySelector("input[name='ans']:checked");
-    if(checked) val = checked.value;
+  if(!checked){
+    document.getElementById("error").innerText = "Answer required!";
+    return;
   }
 
-  localStorage.setItem("survey_"+page, val);
+  localStorage.setItem("q"+page, checked.value);
 
-  page++;
-  history.pushState({}, "", `?page=${page}&id=${id}`);
-  load();
+  let nextPage = page + 1;
+
+  // 🔥 CHECK SECTION CHANGE
+  const currentSection = survey[page-1].section;
+  const nextSection = survey[nextPage-1] ? survey[nextPage-1].section : null;
+
+  // 🔁 RELOAD 5 TIMES WHEN SECTION CHANGES
+  if(currentSection !== nextSection && nextSection !== null){
+    if(reloadCount < 5){
+      window.location.href = `?page=${nextPage}&id=${id}&reload=${reloadCount+1}`;
+      return;
+    } else {
+      reloadCount = 0; // reset
+    }
+  }
+
+  // NORMAL NAV
+  window.location.href = `?page=${nextPage}&id=${id}&reload=0`;
 }
 
 load();
