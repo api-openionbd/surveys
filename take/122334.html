@@ -174,18 +174,7 @@ let page = parseInt(params.get("page")) || 1;
 let reloadCount = parseInt(params.get("reload")) || 0;
 
 // -------- LOAD --------
-function load(){
-
-  if(page > survey.length){
-    alert("Survey Complete");
-    return;
-  }
-
-  document.title = `Metaexpress.com (${page})`;
-
-  let percent = (page/survey.length)*100;
-  document.getElementById("bar").style.width = percent + "%";
-  async function load(){
+async function load(){
 
   if(page > survey.length){
     try{
@@ -223,6 +212,10 @@ function load(){
       <input type="radio" name="ans" value="${o}"> ${o}
     </label>`;
   });
+
+  document.getElementById("answers").innerHTML = html;
+}
+
 
   document.getElementById("answers").innerHTML = html;
 }
