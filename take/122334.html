@@ -77,12 +77,11 @@ button{
   <h3 id="progress"></h3>
   <h2 id="question"></h2>
 
-  <!-- 🎥 VIDEO -->
+  <!-- 🎥 VIDEO PAGE -->
   <div class="video-ad" id="videoBox">
     <iframe 
       id="videoFrame"
       src=""
-      title="Politics Video"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
@@ -101,43 +100,73 @@ button{
 const survey = [];
 const likert = ["Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"];
 
-function add(section, questions){
-  questions.forEach(q=>{
-    survey.push({section,q,opts:likert});
-  });
+function add(section, arr){
+  arr.forEach(q=>survey.push({section,q,opts:likert}));
 }
 
-// -------- POLITICS --------
+// -------- 100 QUESTIONS --------
+
+// 1 Awareness (15)
 add("Awareness",[
-"Follow political news","Understand politics","Know leaders",
-"Discuss politics","Trust news","Vote","Vote matters",
-"Know constitution","Political education","Civic engagement"
+"Follow political news regularly","Understand political systems",
+"Know national leaders","Discuss politics often","Trust news sources",
+"Vote in elections","Vote matters","Know constitution",
+"Political education important","Engaged in civic life",
+"Follow global politics","Aware of policies","Read political content",
+"Understand rights","Stay updated daily"
 ]);
 
+// 2 Governance (15)
 add("Governance",[
 "Trust judiciary","Government transparent","Corruption high",
 "Term limits needed","Military influence bad","Politicians honest",
-"Public funding ok","Election fair","Referendums useful","Bureaucracy slow"
+"Public funding ok","Election fair","Referendums useful","Bureaucracy slow",
+"Government efficient","Leaders accountable","Institutions strong",
+"Law enforcement fair","Anti-corruption effective"
 ]);
 
+// 3 Ideology (15)
 add("Ideology",[
 "Support capitalism","Free healthcare","Free education",
-"Higher tax rich","Religion politics","Free speech",
-"Restrict hate speech","Immigration good","Nationalism good","Globalization good"
+"Higher tax rich","Religion in politics","Free speech",
+"Restrict hate speech","Immigration good","Nationalism good","Globalization good",
+"Equality important","Freedom important","Social justice matters",
+"Government role big","Private sector better"
 ]);
 
+// 4 Elections (15)
+add("Elections",[
+"Elections are fair","Voting easy","Voting secure",
+"Campaigns honest","Media neutral","Parties trustworthy",
+"Independent candidates good","Ads regulated","Voting age fair",
+"Online voting safe","High turnout important","Election monitoring needed",
+"Debates useful","Manifestos clear","Political funding transparent"
+]);
+
+// 5 Policy (15)
 add("Policy",[
 "Climate priority","Renewables needed","Healthcare spending",
 "Defense spending","Education spending","Lower taxes",
-"Farm subsidies","Min wage increase","Unemployment support","Housing support"
+"Farm subsidies","Min wage increase","Unemployment support",
+"Housing support","Internet right","Public transport free",
+"Gun control needed","Drug laws reform","Privacy laws strict"
 ]);
 
-// -------- EXTRA PAGE (76 SAFE) --------
-survey.push({
-  section:"Final",
-  q:"I am satisfied with political systems overall",
-  opts:likert
-});
+// 6 Leadership (15)
+add("Leadership",[
+"Trust current leaders","Leaders competent","Leaders educated",
+"Leaders ethical","Leaders transparent","Leaders experienced",
+"Leaders young","Leaders accountable","Leaders visionary",
+"Leaders honest","Leaders relatable","Leaders decisive",
+"Leaders strong","Leaders diplomatic","Leaders inspire"
+]);
+
+// 7 International (10)
+add("International",[
+"Global cooperation needed","Peace missions good","Accept refugees",
+"Human rights priority","Trade important","Avoid war",
+"Diplomacy first","Strong alliances","Reduce conflicts","Global stability matters"
+]);
 
 // -------- URL --------
 const params = new URLSearchParams(location.search);
@@ -157,7 +186,7 @@ function load(){
   let percent = (page/survey.length)*100;
   document.getElementById("bar").style.width = percent + "%";
 
-  // 🎥 VIDEO ONLY PAGE 56
+  // 🎥 PAGE 56 VIDEO
   if(page === 56){
 
     document.getElementById("progress").innerText =
@@ -175,7 +204,6 @@ function load(){
     return;
   }
 
-  // hide video otherwise
   document.getElementById("videoBox").style.display = "none";
 
   const q = survey[page-1];
@@ -199,7 +227,6 @@ function load(){
 // -------- NEXT --------
 function next(){
 
-  // allow skip video page
   if(page === 56){
     window.location.href = `?page=${page+1}&reload=0`;
     return;
@@ -215,9 +242,9 @@ function next(){
   let nextPage = page + 1;
 
   const currentSection = survey[page-1].section;
-  const nextSection = survey[nextPage-1] ? survey[nextPage-1].section : null;
+  const nextSection = survey[nextPage-1]?.section;
 
-  if(currentSection !== nextSection && nextSection !== null){
+  if(currentSection !== nextSection && nextSection){
     if(reloadCount < 5){
       window.location.href = `?page=${nextPage}&reload=${reloadCount+1}`;
       return;
