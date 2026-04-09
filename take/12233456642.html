@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Survey</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 40px;
+    }
+    .box {
+      max-width: 600px;
+      margin: auto;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2 id="question"></h2>
+  <input type="text" id="answer" placeholder="Your answer..." />
+  <br>
+  <button onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+  // Generate 140 questions
+  const questions = [];
+  for (let i = 1; i <= 140; i++) {
+    questions.push("Question " + i + ": What do you think about AI topic #" + i + "?");
+  }
+
+  // Get URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  let page = parseInt(urlParams.get("page")) || 1;
+  let userId = urlParams.get("id");
+
+  // Generate ID if not exists
+  if (!userId) {
+    userId = Math.floor(1000 + Math.random() * 9000);
+  }
+
+  // Luck system (1-3)
+  let luck = parseInt(urlParams.get("luck"));
+  if (!luck) {
+    luck = Math.floor(Math.random() * 3) + 1;
+  }
+
+  // Display current question
+  function loadQuestion() {
+    if (page > questions.length) {
+      document.body.innerHTML = "<h2>Survey Complete!</h2><p>ID: " + userId + "</p>";
+      return;
+    }
+
+    document.getElementById("question").innerText = questions[page - 1];
+  }
+
+  function nextQuestion() {
+    const answer = document.getElementById("answer").value;
+
+    // You can store answers in localStorage if needed
+    localStorage.setItem("q" + page, answer);
+
+    page++;
+
+    // Luck-based behavior
+    if (luck === 3 && page % 10 === 0) {
+      // Example: redirect effect every 10 questions if luck=3
+      window.location.href = `?page=${page}&id=${userId}&luck=${luck}`;
+    } else {
+      window.history.pushState({}, "", `?page=${page}&id=${userId}&luck=${luck}`);
+      document.getElementById("answer").value = "";
+      loadQuestion();
+    }
+  }
+
+  // Initial load
+  loadQuestion();
+</script>
+
+</body>
+</html>
