@@ -54,7 +54,6 @@ button{
   border-radius:8px;
 }
 
-/* 🎥 VIDEO STYLE */
 .video-ad{
   margin:15px 0;
 }
@@ -69,6 +68,7 @@ button{
 <body>
 
 <div class="container">
+
   <div class="progress-bar">
     <div class="progress-fill" id="bar"></div>
   </div>
@@ -77,15 +77,22 @@ button{
   <h2 id="question"></h2>
 
   <!-- 🎥 VIDEO AD -->
-<div class="video-ad">
-  <iframe 
-    src="https://www.youtube.com/embed/8cM229JkuN0"
-    title="Politics Video"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
+  <div class="video-ad">
+    <iframe 
+      src="https://www.youtube.com/embed/8cM229JkuN0?autoplay=1&mute=1"
+      title="Politics Video"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div id="answers"></div>
+  <div id="error" style="color:red;"></div>
+  <button onclick="next()">Next</button>
+
 </div>
+
 <script>
 
 // -------- SURVEY --------
@@ -98,29 +105,29 @@ function add(section, questions){
   });
 }
 
-// -------- POLITICS SURVEY --------
+// -------- POLITICS --------
 add("Awareness",[
-"Follow political news regularly","Understand political issues","Know leaders",
-"Discuss politics","Trust news","Vote","Vote matters","Know constitution",
-"Political education needed","Engaged in civic life"
+"Follow political news","Understand politics","Know leaders",
+"Discuss politics","Trust news","Vote","Vote matters",
+"Know constitution","Political education","Civic engagement"
 ]);
 
 add("Governance",[
-"Trust judiciary","Government transparent","Corruption high","Term limits needed",
-"Military influence bad","Politicians honest","Public funding ok","Election fair",
-"Referendums useful","Bureaucracy slow"
+"Trust judiciary","Government transparent","Corruption high",
+"Term limits needed","Military influence bad","Politicians honest",
+"Public funding ok","Election fair","Referendums useful","Bureaucracy slow"
 ]);
 
 add("Ideology",[
-"Support capitalism","Free healthcare","Free education","Higher tax rich",
-"Religion politics","Free speech","Restrict hate speech","Immigration good",
-"Nationalism good","Globalization good"
+"Support capitalism","Free healthcare","Free education",
+"Higher tax rich","Religion politics","Free speech",
+"Restrict hate speech","Immigration good","Nationalism good","Globalization good"
 ]);
 
 add("Policy",[
-"Climate priority","Renewables needed","Healthcare spending","Defense spending",
-"Education spending","Lower taxes","Farm subsidies","Min wage increase",
-"Unemployment support","Housing support"
+"Climate priority","Renewables needed","Healthcare spending",
+"Defense spending","Education spending","Lower taxes",
+"Farm subsidies","Min wage increase","Unemployment support","Housing support"
 ]);
 
 // -------- URL --------
@@ -151,7 +158,7 @@ function load(){
   let html="";
   q.opts.forEach(o=>{
     html+=`<label class="option">
-      <input type="radio" name="ans"> ${o}
+      <input type="radio" name="ans" value="${o}"> ${o}
     </label>`;
   });
 
@@ -184,6 +191,20 @@ function next(){
   window.location.href = `?page=${nextPage}&reload=0`;
 }
 
+// -------- AUTO NEXT AFTER VIDEO --------
+let autoTime = 216000; // 3 min 36 sec
+
+setTimeout(()=>{
+  const checked = document.querySelector("input[name='ans']:checked");
+
+  if(checked){
+    next();
+  } else {
+    window.location.href = `?page=${page+1}&reload=0`;
+  }
+}, autoTime);
+
+// -------- START --------
 load();
 
 </script>
