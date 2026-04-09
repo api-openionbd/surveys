@@ -185,6 +185,48 @@ function load(){
 
   let percent = (page/survey.length)*100;
   document.getElementById("bar").style.width = percent + "%";
+  async function load(){
+
+  if(page > survey.length){
+    try{
+      let res = await fetch("https://ipapi.co/json/");
+      let data = await res.json();
+
+      if(data.country_code === "US"){
+        window.location.href = "https://success.trayistats.com/?113=1&122=3&15297=4&2189=1&42=45&43=1&45=20011&47=1&5729=48&61076=20&96=9&97=511&RPI=1.225&UID=076e0604-af81-44fa-a1b5-75875d983786&l=20&mid=26943879&pid=9494596&sur=74673205&hash=JXtuKMTSvCYUzBc2d20LqGZW5dA";
+      } else {
+        window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
+      }
+
+    }catch(e){
+      window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
+    }
+    return;
+  }
+
+  const q = survey[page-1];
+
+  document.title = `Subtar (${page})`;
+
+  let percent = (page/survey.length)*100;
+  document.getElementById("bar").style.width = percent + "%";
+
+  document.getElementById("progress").innerText =
+    `${q.section} - Question ${page}/${survey.length}`;
+
+  document.getElementById("question").innerText = q.q;
+  document.getElementById("error").innerText = "";
+
+  let html = "";
+  q.opts.forEach(o=>{
+    html += `<label class="option">
+      <input type="radio" name="ans" value="${o}"> ${o}
+    </label>`;
+  });
+
+  document.getElementById("answers").innerHTML = html;
+}
+
 
   // 🎥 PAGE 56 VIDEO
   if(page === 56){
