@@ -81,17 +81,11 @@ button{
 // -------- SURVEY --------
 const survey = [];
 
-// Option sets
 const yesNo = ["Yes","No"];
 const likert = [
-  "Strongly Agree",
-  "Agree",
-  "Neutral",
-  "Disagree",
-  "Strongly Disagree"
+  "Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree"
 ];
 
-// helper
 function add(section, questions, type="likert"){
   questions.forEach(q=>{
     survey.push({
@@ -110,76 +104,20 @@ survey.push({section:"Demographics",q:"Your education level?",opts:["School","Co
 survey.push({section:"Demographics",q:"Your occupation?",opts:["Student","Job","Business","Other"],required:true});
 survey.push({section:"Demographics",q:"Your country?",opts:["Bangladesh","India","USA","Other"],required:true});
 
-// -------- AI --------
-add("AI",[
-"AI improves productivity","I trust AI recommendations","AI is useful in education",
-"AI will replace jobs","AI is safe for society","AI saves time",
-"AI is easy to use","AI should be regulated","AI improves creativity",
-"AI is accessible","AI improves business","AI is overhyped",
-"AI will dominate future","AI reduces effort","AI improves learning",
-"AI is trustworthy","AI improves life","AI helps decisions",
-"AI is useful daily","I am excited about AI"
-]);
+// -------- SECTIONS --------
+add("AI",["AI improves productivity","I trust AI","AI is useful","AI replaces jobs","AI is safe","AI saves time","AI easy to use","AI regulated","AI creative","AI accessible","AI business","AI overhyped","AI future","AI reduces effort","AI learning","AI trustworthy","AI improves life","AI helps decisions","AI useful daily","Excited about AI"]);
 
-// -------- EDUCATION --------
-add("Education",[
-"I prefer online learning","Education system is effective","I use YouTube for learning",
-"AI tutors are helpful","I enjoy learning","Education is accessible",
-"Teachers are effective","Exams are fair","Education is affordable",
-"I learn daily","School prepares for life","I like self-learning",
-"Education should change","I enjoy studying","Learning is fun",
-"I take online courses","I improve skills","Education improves life",
-"I value education","I want new skills"
-]);
+add("Education",["Prefer online learning","Education effective","Use YouTube","AI tutors helpful","Enjoy learning","Accessible education","Teachers effective","Exams fair","Affordable education","Learn daily","School prepares life","Self learning","Education change","Enjoy study","Learning fun","Online courses","Improve skills","Education improves life","Value education","Want new skills"]);
 
-// -------- HEALTH --------
-add("Health",[
-"I exercise regularly","I eat healthy","I sleep well","I use health apps",
-"I drink enough water","I avoid junk food","I care mental health",
-"I feel energetic","I manage stress","I follow routine",
-"I visit doctors","I track fitness","I feel healthy",
-"I eat fruits","I avoid sugar","I walk daily",
-"I feel active","I meditate","I balance life","I focus on fitness"
-]);
+add("Health",["Exercise","Eat healthy","Sleep well","Use health apps","Drink water","Avoid junk","Mental health care","Feel energetic","Manage stress","Routine","Visit doctor","Track fitness","Feel healthy","Eat fruits","Avoid sugar","Walk daily","Feel active","Meditate","Balance life","Focus fitness"]);
 
-// -------- ENTERTAINMENT --------
-add("Entertainment",[
-"I watch movies","I prefer series","I use streaming apps","I play games",
-"I follow influencers","I use social media","I enjoy music",
-"I watch YouTube","I spend time online","I enjoy content",
-"I follow trends","I binge watch","I watch TV","I enjoy cinema",
-"I play mobile games","I use TikTok","I watch Netflix",
-"I watch streams","I use apps","I enjoy viral content"
-]);
+add("Entertainment",["Watch movies","Prefer series","Use streaming","Play games","Follow influencers","Use social media","Enjoy music","Watch YouTube","Online time","Enjoy content","Follow trends","Binge watch","Watch TV","Enjoy cinema","Play mobile games","Use TikTok","Watch Netflix","Watch streams","Use apps","Enjoy viral"]);
 
-// -------- COMMUNITY --------
-add("Community",[
-"I attend events","I volunteer","I feel connected","I help others",
-"I trust people","I engage socially","I like community work",
-"I meet friends","I communicate often","I support groups",
-"I join activities","I feel belonging","I help neighbors",
-"I attend gatherings","I enjoy teamwork","I value friends",
-"I feel supported","I trust community","I join online groups","I care society"
-]);
+add("Community",["Attend events","Volunteer","Feel connected","Help others","Trust people","Social engagement","Community work","Meet friends","Communicate","Support groups","Join activities","Belonging","Help neighbors","Attend gatherings","Teamwork","Value friends","Feel supported","Trust community","Online groups","Care society"]);
 
-// -------- ENVIRONMENT --------
-add("Environment",[
-"I recycle","I save energy","I care environment","I avoid plastic",
-"I support eco products","I save water","I care climate change",
-"I use eco items","I reduce waste","I reuse items",
-"I plant trees","I support sustainability","I buy eco brands",
-"I avoid pollution","I care future","I walk instead drive",
-"I save electricity","I support green policy","I care animals","I take eco actions"
-]);
+add("Environment",["Recycle","Save energy","Care environment","Avoid plastic","Eco products","Save water","Climate concern","Eco use","Reduce waste","Reuse","Plant trees","Sustainability","Eco brands","Avoid pollution","Future care","Walk more","Save electricity","Green policy","Care animals","Eco actions"]);
 
-// -------- PERSONAL --------
-add("Personal",[
-"Family is important","Money brings happiness","Technology improves life",
-"I am satisfied","I set goals","I stay positive",
-"I manage time","I am motivated","I feel successful",
-"I help others","I believe growth","I enjoy life",
-"I take risks","I learn from failure","I stay focused"
-]);
+add("Personal",["Family important","Money happiness","Tech improves life","Satisfied","Set goals","Stay positive","Time manage","Motivated","Feel success","Help others","Believe growth","Enjoy life","Take risks","Learn failure","Stay focused"]);
 
 // -------- URL --------
 const params = new URLSearchParams(location.search);
@@ -188,9 +126,22 @@ let id = params.get("id") || Math.floor(1000+Math.random()*9000);
 let reloadCount = parseInt(params.get("reload")) || 0;
 
 // -------- LOAD --------
-function load(){
+async function load(){
+
   if(page > survey.length){
-    window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
+    try{
+      let res = await fetch("https://ipapi.co/json/");
+      let data = await res.json();
+
+      if(data.country_code === "US"){
+        window.location.href = "https://success.trayistats.com/?113=1&122=3&15297=4&2189=1&42=45&43=1&45=20011&47=1&5729=48&61076=20&96=9&97=511&RPI=1.225&UID=076e0604-af81-44fa-a1b5-75875d983786&l=20&mid=26943879&pid=9494596&sur=74673205&hash=JXtuKMTSvCYUzBc2d20LqGZW5dA";
+      } else {
+        window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
+      }
+
+    }catch(e){
+      window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
+    }
     return;
   }
 
