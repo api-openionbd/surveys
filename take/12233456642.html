@@ -153,121 +153,230 @@ add("Education",[
 "Do you want to learn new skills?"
 ]);
 
+// -------- HEALTH --------// -------- SURVEY --------
+const survey = [];
+
+// Option sets
+const yesNo = ["Yes","No"];
+const likert = [
+  "Strongly Agree",
+  "Agree",
+  "Neutral",
+  "Disagree",
+  "Strongly Disagree"
+];
+
+// helper
+function add(section, questions, type="likert"){
+  questions.forEach(q=>{
+    survey.push({
+      section,
+      type:type,
+      q:q,
+      opts: type==="mcq" ? yesNo : likert,
+      required:true
+    });
+  });
+}
+
+// -------- DEMOGRAPHICS --------
+survey.push({
+  section:"Demographics",
+  q:"What is your age group?",
+  opts:["Under 18","18-24","25-34","35-44","45+"],
+  required:true
+});
+
+survey.push({
+  section:"Demographics",
+  q:"What is your gender?",
+  opts:["Male","Female","Other"],
+  required:true
+});
+
+survey.push({
+  section:"Demographics",
+  q:"Your education level?",
+  opts:["School","College","University","Other"],
+  required:true
+});
+
+survey.push({
+  section:"Demographics",
+  q:"Your occupation?",
+  opts:["Student","Job","Business","Other"],
+  required:true
+});
+
+survey.push({
+  section:"Demographics",
+  q:"Your country?",
+  opts:["Bangladesh","India","USA","Other"],
+  required:true
+});
+
+// -------- AI --------
+add("AI",[
+"AI improves productivity",
+"I trust AI recommendations",
+"AI is useful in education",
+"AI will replace jobs",
+"AI is safe for society",
+"AI saves time",
+"AI is easy to use",
+"AI should be regulated",
+"AI improves creativity",
+"AI is accessible",
+"AI improves business",
+"AI is overhyped",
+"AI will dominate future",
+"AI reduces effort",
+"AI improves learning",
+"AI is trustworthy",
+"AI improves life",
+"AI helps decisions",
+"AI is useful daily",
+"I am excited about AI"
+]);
+
+// -------- EDUCATION --------
+add("Education",[
+"I prefer online learning",
+"Education system is effective",
+"I use YouTube for learning",
+"AI tutors are helpful",
+"I enjoy learning",
+"Education is accessible",
+"Teachers are effective",
+"Exams are fair",
+"Education is affordable",
+"I learn daily",
+"School prepares for life",
+"I like self-learning",
+"Education should change",
+"I enjoy studying",
+"Learning is fun",
+"I take online courses",
+"I improve skills",
+"Education improves life",
+"I value education",
+"I want new skills"
+]);
+
 // -------- HEALTH --------
 add("Health",[
-"Do you exercise regularly?",
-"Do you eat healthy food?",
-"Do you sleep well?",
-"Do you use health apps?",
-"Do you drink enough water?",
-"Do you avoid junk food?",
-"Do you care about mental health?",
-"Do you feel energetic daily?",
-"Do you manage stress well?",
-"Do you follow a routine?",
-"Do you visit doctors regularly?",
-"Do you track fitness?",
-"Do you feel healthy?",
-"Do you eat fruits daily?",
-"Do you avoid sugar?",
-"Do you walk daily?",
-"Do you feel active?",
-"Do you meditate?",
-"Do you maintain balance in life?",
-"Do you focus on fitness?"
+"I exercise regularly",
+"I eat healthy",
+"I sleep well",
+"I use health apps",
+"I drink enough water",
+"I avoid junk food",
+"I care mental health",
+"I feel energetic",
+"I manage stress",
+"I follow routine",
+"I visit doctors",
+"I track fitness",
+"I feel healthy",
+"I eat fruits",
+"I avoid sugar",
+"I walk daily",
+"I feel active",
+"I meditate",
+"I balance life",
+"I focus on fitness"
 ]);
 
 // -------- ENTERTAINMENT --------
 add("Entertainment",[
-"Do you watch movies regularly?",
-"Do you prefer series over movies?",
-"Do you use streaming platforms?",
-"Do you play games?",
-"Do you follow influencers?",
-"Do you use social media daily?",
-"Do you enjoy music?",
-"Do you watch YouTube daily?",
-"Do you spend time online?",
-"Do you enjoy entertainment content?",
-"Do you follow trends?",
-"Do you binge watch shows?",
-"Do you watch TV daily?",
-"Do you enjoy cinema?",
-"Do you play mobile games?",
-"Do you use TikTok?",
-"Do you watch Netflix?",
-"Do you watch live streams?",
-"Do you like entertainment apps?",
-"Do you enjoy viral content?"
+"I watch movies",
+"I prefer series",
+"I use streaming apps",
+"I play games",
+"I follow influencers",
+"I use social media",
+"I enjoy music",
+"I watch YouTube",
+"I spend time online",
+"I enjoy content",
+"I follow trends",
+"I binge watch",
+"I watch TV",
+"I enjoy cinema",
+"I play mobile games",
+"I use TikTok",
+"I watch Netflix",
+"I watch streams",
+"I use apps",
+"I enjoy viral content"
 ]);
 
 // -------- COMMUNITY --------
 add("Community",[
-"Do you attend events?",
-"Do you volunteer?",
-"Do you feel connected to your community?",
-"Do you help others?",
-"Do you trust people?",
-"Do you engage socially?",
-"Do you like community work?",
-"Do you meet friends often?",
-"Do you communicate regularly?",
-"Do you support local groups?",
-"Do you join activities?",
-"Do you feel a sense of belonging?",
-"Do you help neighbors?",
-"Do you attend gatherings?",
-"Do you enjoy teamwork?",
-"Do you value friendships?",
-"Do you feel supported?",
-"Do you trust your community?",
-"Do you engage in online groups?",
-"Do you care about your society?"
+"I attend events",
+"I volunteer",
+"I feel connected",
+"I help others",
+"I trust people",
+"I engage socially",
+"I like community work",
+"I meet friends",
+"I communicate often",
+"I support groups",
+"I join activities",
+"I feel belonging",
+"I help neighbors",
+"I attend gatherings",
+"I enjoy teamwork",
+"I value friends",
+"I feel supported",
+"I trust community",
+"I join online groups",
+"I care society"
 ]);
 
 // -------- ENVIRONMENT --------
 add("Environment",[
-"Do you recycle regularly?",
-"Do you save energy?",
-"Do you care about the environment?",
-"Do you avoid plastic?",
-"Do you support eco-friendly products?",
-"Do you conserve water?",
-"Do you care about climate change?",
-"Do you use eco products?",
-"Do you reduce waste?",
-"Do you reuse items?",
-"Do you plant trees?",
-"Do you support sustainability?",
-"Do you buy eco brands?",
-"Do you avoid pollution?",
-"Do you care about the planet’s future?",
-"Do you walk instead of driving?",
-"Do you save electricity?",
-"Do you support green policies?",
-"Do you care about animals?",
-"Do you take eco-friendly actions?"
+"I recycle",
+"I save energy",
+"I care environment",
+"I avoid plastic",
+"I support eco products",
+"I save water",
+"I care climate change",
+"I use eco items",
+"I reduce waste",
+"I reuse items",
+"I plant trees",
+"I support sustainability",
+"I buy eco brands",
+"I avoid pollution",
+"I care future",
+"I walk instead drive",
+"I save electricity",
+"I support green policy",
+"I care animals",
+"I take eco actions"
 ]);
 
 // -------- PERSONAL --------
 add("Personal",[
-"Is family important to you?",
-"Does money bring happiness?",
-"Does technology improve life?",
-"Are you satisfied with your life?",
-"Do you set goals?",
-"Do you stay positive?",
-"Do you manage time well?",
-"Are you motivated?",
-"Do you feel successful?",
-"Do you help others?",
-"Do you believe in self-growth?",
-"Do you enjoy life?",
-"Do you take risks?",
-"Do you learn from failure?",
-"Do you stay focused?"
+"Family is important",
+"Money brings happiness",
+"Technology improves life",
+"I am satisfied",
+"I set goals",
+"I stay positive",
+"I manage time",
+"I am motivated",
+"I feel successful",
+"I help others",
+"I believe growth",
+"I enjoy life",
+"I take risks",
+"I learn from failure",
+"I stay focused"
 ]);
-
 // -------- URL --------
 const params = new URLSearchParams(location.search);
 let page = parseInt(params.get("page")) || 1;
