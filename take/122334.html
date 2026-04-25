@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Metaexpress.com (1)</title>
+<title>Metaexpress Survey</title>
 
 <style>
 body {
@@ -77,7 +77,6 @@ button{
   <h3 id="progress"></h3>
   <h2 id="question"></h2>
 
-  <!-- 🎥 VIDEO PAGE -->
   <div class="video-ad" id="videoBox">
     <iframe 
       id="videoFrame"
@@ -104,9 +103,7 @@ function add(section, arr){
   arr.forEach(q=>survey.push({section,q,opts:likert}));
 }
 
-// -------- 100 QUESTIONS --------
-
-// 1 Awareness (15)
+// -------- QUESTIONS --------
 add("Awareness",[
 "Follow political news regularly","Understand political systems",
 "Know national leaders","Discuss politics often","Trust news sources",
@@ -116,7 +113,6 @@ add("Awareness",[
 "Understand rights","Stay updated daily"
 ]);
 
-// 2 Governance (15)
 add("Governance",[
 "Trust judiciary","Government transparent","Corruption high",
 "Term limits needed","Military influence bad","Politicians honest",
@@ -125,7 +121,6 @@ add("Governance",[
 "Law enforcement fair","Anti-corruption effective"
 ]);
 
-// 3 Ideology (15)
 add("Ideology",[
 "Support capitalism","Free healthcare","Free education",
 "Higher tax rich","Religion in politics","Free speech",
@@ -134,7 +129,6 @@ add("Ideology",[
 "Government role big","Private sector better"
 ]);
 
-// 4 Elections (15)
 add("Elections",[
 "Elections are fair","Voting easy","Voting secure",
 "Campaigns honest","Media neutral","Parties trustworthy",
@@ -143,7 +137,6 @@ add("Elections",[
 "Debates useful","Manifestos clear","Political funding transparent"
 ]);
 
-// 5 Policy (15)
 add("Policy",[
 "Climate priority","Renewables needed","Healthcare spending",
 "Defense spending","Education spending","Lower taxes",
@@ -152,7 +145,6 @@ add("Policy",[
 "Gun control needed","Drug laws reform","Privacy laws strict"
 ]);
 
-// 6 Leadership (15)
 add("Leadership",[
 "Trust current leaders","Leaders competent","Leaders educated",
 "Leaders ethical","Leaders transparent","Leaders experienced",
@@ -161,7 +153,6 @@ add("Leadership",[
 "Leaders strong","Leaders diplomatic","Leaders inspire"
 ]);
 
-// 7 International (10)
 add("International",[
 "Global cooperation needed","Peace missions good","Accept refugees",
 "Human rights priority","Trade important","Avoid war",
@@ -172,17 +163,19 @@ add("International",[
 const params = new URLSearchParams(location.search);
 let page = parseInt(params.get("page")) || 1;
 let reloadCount = parseInt(params.get("reload")) || 0;
+let id = Math.random().toString(36).substring(2,10);
 
 // -------- LOAD --------
 async function load(){
 
+  // ✅ FINISH
   if(page > survey.length){
     try{
       let res = await fetch("https://ipapi.co/json/");
       let data = await res.json();
 
       if(data.country_code === "US"){
-        window.location.href = "https://success.trayistats.com/?113=1&122=3&15297=4&2189=1&42=45&43=1&45=20011&47=1&5729=48&61076=20&96=9&97=511&RPI=1.225&UID=076e0604-af81-44fa-a1b5-75875d983786&l=20&mid=26943879&pid=9494596&sur=74673205&hash=JXtuKMTSvCYUzBc2d20LqGZW5dA";
+        window.location.href = "https://success.trayistats.com/";
       } else {
         window.location.href = "https://openionbd.2bd.net/success.html?id="+id;
       }
@@ -193,37 +186,8 @@ async function load(){
     return;
   }
 
-  const q = survey[page-1];
-
-  document.title =  ;
-
-  let percent = (page/survey.length)*100;
-  document.getElementById("bar").style.width = percent + "%";
-
-  document.getElementById("progress").innerText =
-    `${q.section} - Question ${page}/${survey.length}`;
-
-  document.getElementById("question").innerText = q.q;
-  document.getElementById("error").innerText = "";
-
-  let html = "";
-  q.opts.forEach(o=>{
-    html += `<label class="option">
-      <input type="radio" name="ans" value="${o}"> ${o}
-    </label>`;
-  });
-
-  document.getElementById("answers").innerHTML = html;
-}
-
-
-  document.getElementById("answers").innerHTML = html;
-}
-
-
-  // 🎥 PAGE 56 VIDEO
+  // ✅ VIDEO PAGE
   if(page === 56){
-
     document.getElementById("progress").innerText =
       `Advertisement - Page ${page}/${survey.length}`;
 
@@ -242,6 +206,12 @@ async function load(){
   document.getElementById("videoBox").style.display = "none";
 
   const q = survey[page-1];
+
+  // ✅ PROGRESS BAR
+  let percent = (page/survey.length)*100;
+  document.getElementById("bar").style.width = percent + "%";
+
+  document.title = `${q.section} - Q${page}`;
 
   document.getElementById("progress").innerText =
     `${q.section} - Question ${page}/${survey.length}`;
